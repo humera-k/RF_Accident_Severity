@@ -1,0 +1,38 @@
+The python code is explained step by step below
+Import necessary libraries:
+pandas: for data manipulation
+RandomForestClassifier: the classification model
+train_test_split: to split the dataset into training and testing sets
+GridSearchCV: to search for the best hyperparameters for the classifier
+confusion_matrix, classification_report: for evaluating the model's performance
+Load the dataset from a CSV file using pandas:
+pythonCopy code
+data = pd.read_csv('Accdataset_hk_PS_BAEL_Combined.csv') 
+Assign the target variable (y) and fill any missing values with zeros:
+pythonCopy code
+y = data['Accident_Severity_C'].fillna(0) 
+Select feature variables (X) by dropping unnecessary columns and filling any missing values with zeros:
+pythonCopy code
+X = data.drop([...], axis=1) X = X.fillna(0) 
+Split the dataset into training and testing sets (80% for training, 20% for testing):
+pythonCopy code
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42) 
+Create a random forest classifier:
+pythonCopy code
+rfc = RandomForestClassifier() 
+Define the hyperparameters to tune:
+pythonCopy code
+hyperparameters = {'n_estimators': [50, 100, 150, 200], 'max_depth': [10, 20, 30, None], 'max_features': ['sqrt', 'log2', None]} 
+Perform a grid search to find the best hyperparameters:
+pythonCopy code
+clf = GridSearchCV(rfc, hyperparameters, cv=5) clf.fit(X_train, y_train) 
+Print the best hyperparameters:
+pythonCopy code
+print('Best hyperparameters:', clf.best_params_) 
+Make predictions on the training set:
+pythonCopy code
+y_pred_train = clf.predict(X_train) 
+Print the confusion matrix and classification report for the training set:
+pythonCopy code
+print('Confusion matrix for training set:') print(confusion_matrix(y_train, y_pred_train)) print('Classification report for training set:') print(classification_report(y_train, y_pred_train)) 
+The code preprocesses the data, trains the random forest classifier, and evaluates its performance on the training set.
